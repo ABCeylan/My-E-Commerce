@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -38,11 +38,23 @@ client.connect(err => {
         }
     });
 
+    // Get all users
+    app.get('/api/users', async (req, res) => {
+        try {
+            const users = await usersCollection.find().toArray();
+            console.log('Users:', users);
+            res.json(users);
+        } catch (err) {
+            res.status(500).json({ message: 'Error fetching users:', err });
+        }
+    });
+
+
     // ... The rest of your endpoints go here, replacing the in-memory data operations with MongoDB queries
 
     // Server setup
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, "0.0.0.0", () => {
+    const PORT = 3000;
+    app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
 });
