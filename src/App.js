@@ -1,35 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { fetchItems, fetchUsers } from './api';
+import React, { useState } from 'react';
+import Home from './components/home/home';
 
 function App() {
-  const [items, setItems] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      const itemsData = await fetchItems();
-      setItems(itemsData);
-      const usersData = await fetchUsers();
-      setUsers(usersData);
-    }
+  const handleLogin = (authenticatedUser, isAdmin) => {
+    setUser(authenticatedUser);
+    setIsAdmin(isAdmin);
+  };
 
-    fetchData();
-  }, []);
+  const handleLogout = () => {
+    setUser(null);
+    setIsAdmin(false);
+  };
 
   return (
     <div className="App">
-      <h1>Items</h1>
-      <ul>
-        {items.map((item) => (
-          <li key={item._id}>{item.name}</li>
-        ))}
-      </ul>
-      <h1>Users</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user._id}>{user.userName}</li>
-        ))}
-      </ul>
+      <h1>E-Commerce App</h1>
+      {user ? (
+        <div>
+          <p>Welcome, {user.userName}! ({isAdmin ? 'Admin' : 'User'})</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <Home onLogin={handleLogin} />
+      )}
+      {/* Add other components and routes here */}
     </div>
   );
 }
