@@ -53,7 +53,7 @@ client.connect(err => {
     // ... The rest of your endpoints go here, replacing the in-memory data operations with MongoDB queries
 
     // Server setup
-    const PORT = 3000;
+    const PORT = 3001;
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
