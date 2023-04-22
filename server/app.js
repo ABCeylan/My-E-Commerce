@@ -6,7 +6,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+// const uri = process.env.MONGODB_CONNECTION_STRING;
 const uri = "mongodb+srv://Anilbc99:Anilbc99@cluster-abc.kynooiw.mongodb.net/?retryWrites=true&w=majority";
+
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Middleware
@@ -31,7 +33,7 @@ client.connect(err => {
     app.get('/api/items', async (req, res) => {
         try {
             const items = await itemsCollection.find().toArray();
-            console.log('Items:', items);
+            // console.log('Items:', items);
             res.json(items);
         } catch (err) {
             res.status(500).json({ message: 'Error fetching items:', err });
@@ -39,15 +41,15 @@ client.connect(err => {
     });
 
     // Get all users
-    // app.get('/api/users', async (req, res) => {
-    //     try {
-    //         const users = await usersCollection.find().toArray();
-    //         console.log('Users:', users);
-    //         res.json(users);
-    //     } catch (err) {
-    //         res.status(500).json({ message: 'Error fetching users:', err });
-    //     }
-    // });
+    app.get('/api/users', async (req, res) => {
+        try {
+            const users = await usersCollection.find().toArray();
+            // console.log('Users:', users);
+            res.json(users);
+        } catch (err) {
+            res.status(500).json({ message: 'Error fetching users:', err });
+        }
+    });
 
 
     // ... The rest of your endpoints go here, replacing the in-memory data operations with MongoDB queries
