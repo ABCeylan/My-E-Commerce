@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 const dotenv = require('dotenv');
 
@@ -27,6 +28,14 @@ client.connect(err => {
     const itemsCollection = db.collection('items');
     const usersCollection = db.collection('users');
 
+    // Middleware to serve static files
+    app.use(express.static(path.join(__dirname, '..', 'build')));
+
+    // Catch-all route to serve index.html for any other request
+    app.get(/^(?!\/api).*/, (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+    });
+
     // API Endpoints
 
     // Get all items
@@ -53,6 +62,8 @@ client.connect(err => {
 
 
     // ... The rest of your endpoints go here, replacing the in-memory data operations with MongoDB queries
+
+
 
     // Server setup
     const PORT = 3001;
