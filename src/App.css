@@ -1,38 +1,191 @@
-.App {
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.input-group label {
+  font-weight: bold;
+}
+
+.login-form input {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.login-button {
+  background-color: #6c757d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #5a6268;
+}
+
+.user-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.category-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.category-button {
+  background-color: #6c757d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.category-button.active,
+.category-button:hover {
+  background-color: #5a6268;
+}
+
+.item-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.item-button:hover {
+  background-color: #ddd;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.item-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.item-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  width: 200px;
+  height: 300px;
+  max-width: calc(50% - 20px);
+}
+
+.item-container img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.item-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.add-to-cart-button {
+  background-color: #4caf50;
+  border: none;
   color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+  padding: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 1rem;
+}
+
+.sidebar nav ul li a {
+  color: #212529;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active-link {
+  color: #007bff;
+}
+
+.main-content {
+  margin-left: 220px; /* Add some margin to the left to avoid hiding behind the navbar */
+  padding: 1rem;
+  flex-grow: 1; /* Allow the main content to grow to fill the remaining space */
 }
