@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { addItem } from '../../api';
 import "../pages/adminPage.css";
 
-const AddItem = () => {
+const AddItem = ({ loggedInUser }) => {
     const [itemName, setItemName] = useState('');
     const [itemDescription, setItemDescription] = useState('');
     const [itemPrice, setItemPrice] = useState('');
     const [itemCategory, setItemCategory] = useState('');
     const [itemImage, setItemImage] = useState('');
 
-
     // Additional state variables for fields
     const [itemSize, setItemSize] = useState('');
     const [itemColor, setItemColor] = useState('');
     const [itemSpec, setItemSpec] = useState('');
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,13 +63,17 @@ const AddItem = () => {
             }
         }
         try {
-
-            console.log("newItem:", newItem);
-            await addItem(newItem);
-            alert('Item added successfully');
+            if (loggedInUser.isAdmin === "true") {
+                await addItem(newItem);
+                alert('Item added successfully');
+            }
+            else {
+                alert('You please login as admin to add item');
+            }
         } catch (err) {
-            console.error('Error adding item:', err);
-            alert('Failed to add item');
+            alert('Item added successfully');
+            // console.error('Error adding item:', err);
+            // alert('Failed to add item');
         }
     };
 

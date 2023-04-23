@@ -12,11 +12,11 @@ const AdminPage = ({ loggedInUser }) => {
     const renderSelectedAction = () => {
         switch (selectedAction) {
             case 'addItem':
-                return <AddItem />;
+                return <AddItem loggedInUser={loggedInUser} />;
             case 'removeItem':
-                return <RemoveItem />;
+                return <RemoveItem loggedInUser={loggedInUser} />;
             case 'addUser':
-                return <AddUser />;
+                return <AddUser loggedInUser={loggedInUser} />;
             case 'removeUser':
                 return <RemoveUser loggedInUser={loggedInUser} />;
             default:

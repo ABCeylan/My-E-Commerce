@@ -1,8 +1,16 @@
 // src/components/ProfilePage.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './profilePage.css';
 
-const ProfilePage = ({ loggedInUser }) => {
+const ProfilePage = ({ loggedInUser, onAfterLogout }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        onAfterLogout();
+        navigate('/');
+    };
+
     if (!loggedInUser) {
         return <div>Please log in to view your profile.</div>;
     }
@@ -16,10 +24,10 @@ const ProfilePage = ({ loggedInUser }) => {
                     <span>{loggedInUser.userName}</span>
                 </div>
                 <div className="profile-row">
-                    <label>Email:</label>
-                    <span>{loggedInUser.email}</span>
+                    <label>Rating:</label>
+                    <span>{loggedInUser.averageRating}</span>
                 </div>
-                {/* Add more fields as needed */}
+                <button className='profile-button' onClick={handleLogout}>Logout</button>
             </div>
         </div>
     );

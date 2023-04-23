@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchItems, removeItem } from '../../api';
 
-const RemoveItem = () => {
+const RemoveItem = ({ loggedInUser }) => {
     const [items, setItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState('');
     const [loading, setLoading] = useState(true);
@@ -25,10 +25,15 @@ const RemoveItem = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await removeItem(selectedItem);
-            setItems(items.filter((item) => item._id !== selectedItem));
-            setSelectedItem('');
-            alert('Item removed successfully');
+            if (loggedInUser.isAdmin === "true") {
+                await removeItem(selectedItem);
+                setItems(items.filter((item) => item._id !== selectedItem));
+                setSelectedItem('');
+                alert('Item removed successfully');
+            }
+            else {
+                alert('You please login as admin to remove item');
+            }
         } catch (err) {
             console.error('Error removing item:', err);
             alert('Failed to remove item');
@@ -50,7 +55,7 @@ const RemoveItem = () => {
                             </option>
                         ))}
                     </select>
-                    <button type="submit">Remove Item</button>
+                    <button className='admin-button' type="submit">Remove Item</button>
                 </form>
             )}
         </div>

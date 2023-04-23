@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { addUser } from '../../api';
 
-const AddUser = () => {
+const AddUser = ({ loggedInUser }) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [isAdmin, setIsAdmin] = useState('');
@@ -18,14 +18,16 @@ const AddUser = () => {
         }
 
         try {
-
-            console.log("newItem:", newUser);
-            await addUser(newUser);
-            alert('Item added successfully');
+            if (loggedInUser.isAdmin === "true") {
+                await addUser(newUser);
+                alert('Item added successfully');
+            }
+            else {
+                alert('You please login as admin to add item');
+            }
         } catch (err) {
             // Interesting but database is updating but still it catches the error
             alert('Item added successfully');
-
         }
     };
 
@@ -43,7 +45,7 @@ const AddUser = () => {
                     <option value="false">False</option>
                 </select>
 
-                <button type="submit">Add User</button>
+                <button className='admin-button' type="submit">Add User</button>
             </form>
         </div>
     );

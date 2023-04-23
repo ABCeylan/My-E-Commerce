@@ -25,11 +25,8 @@ const RemoveUser = ({ loggedInUser }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log("selectedUser: ", selectedUser)
-            console.log("loggedInuser: ", loggedInUser)
-
-            // check if admin tries to remove himself
-            if (selectedUser !== loggedInUser._id) {
+            // check if admin tries to remove himself and is logged in
+            if (selectedUser !== loggedInUser._id && loggedInUser.isAdmin === "true") {
                 await removeUser(selectedUser);
                 setUsers(users.filter((user) => user._id !== selectedUser));
                 setSelectedUser('');
@@ -59,7 +56,7 @@ const RemoveUser = ({ loggedInUser }) => {
                             </option>
                         ))}
                     </select>
-                    <button type="submit">Remove User</button>
+                    <button className='admin-button' type="submit">Remove User</button>
                 </form>
             )}
         </div>

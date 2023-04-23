@@ -3,7 +3,7 @@ import { fetchItems, fetchItemsByCategory, loginUser } from './api';
 import './App.css';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import ItemPage from '../src/components/itemPage';
-import ProfilePage from './components/pages/profile';
+import ProfilePage from './components/pages/profilePage';
 import LoginPage from './components/pages/loginPage';
 import Navbar from './components/navbar';
 import HomePage from './components/pages/homePage';
@@ -12,18 +12,11 @@ import AdminPage from './components/pages/adminPage';
 
 function App() {
   const [currentCategory, setCurrentCategory] = useState('All');
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [loggedInUser, setLoggedInUser] = useState('');
 
   const handleLogin = (user) => {
     setLoggedInUser(user);
     navigate('/profile');
-  };
-
-  const handleLogout = () => {
-    setLoggedInUser(null);
   };
 
   const navigate = useNavigate();
@@ -37,13 +30,15 @@ function App() {
     } else {
       items = await fetchItemsByCategory(category);
     }
-    setFilteredItems(items);
   };
 
   useEffect(() => {
     filterItemsByCategory(currentCategory);
   }, [currentCategory]);
 
+  const handleAfterLogout = () => {
+    setLoggedInUser(null);
+  };
 
   return (
     <div className="app">
@@ -57,7 +52,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage loggedInUser={loggedInUser} />} />
             <Route path="/items/:id" element={<ItemPage loggedInUser={loggedInUser} />} />
-            <Route path="/profile" element={<ProfilePage loggedInUser={loggedInUser} />} />
+            <Route path="/profile" element={<ProfilePage loggedInUser={loggedInUser} onAfterLogout={handleAfterLogout} />} />
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
             <Route path="/admin" element={<AdminPage loggedInUser={loggedInUser} />} />
           </Routes>
