@@ -43,7 +43,6 @@ client.connect(err => {
     app.get('/api/items', async (req, res) => {
         try {
             const items = await itemsCollection.find().toArray();
-            // console.log('Items:', items);
             res.json(items);
         } catch (err) {
             res.status(500).json({ message: 'Error fetching items:', err });
@@ -61,18 +60,24 @@ client.connect(err => {
         }
     });
 
-    // Add Item (Admin)
+    // Add Item 
     app.post('/api/items', async (req, res) => {
         try {
             const newItem = req.body;
             const result = await itemsCollection.insertOne(newItem);
-            res.status(201).json(result.ops[0]);
+
+            // Check if the item was successfully inserted
+            if (result.insertedCount === 1) {
+                res.status(201).json(result.ops[0]);
+            } else {
+                // res.status(500).json({ message: 'Error adding item: Insert operation failed.' });
+            }
         } catch (err) {
-            res.status(500).json({ message: 'Error adding item:', err });
+            // res.status(500).json({ message: 'Error adding item:', err });
         }
     });
 
-    // Remove Item (Admin)
+    // Remove Item
     app.delete('/api/items/:itemId', async (req, res) => {
         try {
             const itemId = req.params.itemId;
@@ -83,18 +88,18 @@ client.connect(err => {
         }
     });
 
-    // Add User (Admin)
+    // Add User 
     app.post('/api/users', async (req, res) => {
         try {
             const newUser = req.body;
             const result = await usersCollection.insertOne(newUser);
-            res.status(201).json(result.ops[0]);
+            // res.status(201).json(result.ops[0]);
         } catch (err) {
-            res.status(500).json({ message: 'Error adding user:', err });
+            // res.status(500).json({ message: 'Error adding user:', err });
         }
     });
 
-    // Remove User (Admin)
+    // Remove User 
     app.delete('/api/users/:userId', async (req, res) => {
         try {
             const userId = req.params.userId;
@@ -105,7 +110,7 @@ client.connect(err => {
         }
     });
 
-    // Rate Item (Regular User)
+    // Rate Item 
     app.post('/api/items/:itemId/rate', async (req, res) => {
         try {
             const itemId = req.params.itemId;
@@ -120,7 +125,7 @@ client.connect(err => {
         }
     });
 
-    // Review Item (Regular User)
+    // Review Item 
     app.post('/api/items/:itemId/review', async (req, res) => {
         try {
             const itemId = req.params.itemId;

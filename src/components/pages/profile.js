@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+// src/components/ProfilePage.js
+import React from 'react';
+import './profilePage.css';
 
 const ProfilePage = ({ loggedInUser }) => {
+    if (!loggedInUser) {
+        return <div>Please log in to view your profile.</div>;
+    }
 
-    console.log("loggedInUser: ", loggedInUser);
     return (
         <div className="profile-page">
-            <h1>Profile Page</h1>
-            <p><strong>Username:</strong> {loggedInUser.userName}</p>
-            <p><strong>Average Rating:</strong> {loggedInUser.averageRating !== "" ? loggedInUser.averageRating.toFixed(1) : ""}</p>
-            <div className="reviews">
-                <h2>Reviews</h2>
-                {loggedInUser.reviews.map((review, index) => (
-                    <div key={index} className="review">
-                        <p>{review}</p>
-                    </div>
-                ))}
+            <h2>Your Profile</h2>
+            <div className="profile-details">
+                <div className="profile-row">
+                    <label>Username:</label>
+                    <span>{loggedInUser.userName}</span>
+                </div>
+                <div className="profile-row">
+                    <label>Email:</label>
+                    <span>{loggedInUser.email}</span>
+                </div>
+                {/* Add more fields as needed */}
             </div>
         </div>
     );

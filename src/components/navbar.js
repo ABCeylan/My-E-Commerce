@@ -1,55 +1,50 @@
-import { NavLink, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
-import Profile from '../components/pages/profile';
-import Admin from '../components/pages/adminProfile';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = ({ loggedInUser }) => {
-
-    // Check if the logged-in user is an admin
-    const isAdmin = loggedInUser && loggedInUser.isAdmin;
-
+    const location = useLocation();
 
     return (
-        <div className="app">
-            {/* Add the new sidebar structure */}
-            <div className="sidebar">
-                <nav>
-                    <ul>
+        <div className="sidebar">
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/" className={location.pathname === '/' ? 'active-link' : ''}>
+                            Home
+                        </Link>
+                    </li>
+                    {!loggedInUser && (
                         <li>
-                            <NavLink to="/" activeClassName="active-link" exact>
-                                Home
-                            </NavLink>
+                            <Link
+                                to="/login"
+                                className={location.pathname === '/login' ? 'active-link' : ''}
+                            >
+                                Login
+                            </Link>
                         </li>
-                        {(
-                            <li>
-                                <NavLink to="/profile" activeClassName="active-link">
-                                    Profile
-                                </NavLink>
-                            </li>
-                        )}
-                        {(
-                            <li>
-                                <NavLink to="/admin" activeClassName="active-link">
-                                    Admin
-                                </NavLink>
-                            </li>
-                        )}
-                    </ul>
-                </nav>
-            </div>
-
-            {/* Rest of your components and Routes */}
-            {/* Add new Route for Profile and Admin */}
-            <Routes>
-                {/* Other routes */}
-                <Route
-                    path="/profile"
-                    element={loggedInUser ? <Profile /> : <Navigate to="/" />}
-                />
-                <Route
-                    path="/admin"
-                    element={isAdmin ? <Admin /> : <Navigate to="/" />}
-                />
-            </Routes>
+                    )}
+                    {loggedInUser && (
+                        <li>
+                            <Link
+                                to="/profile"
+                                className={location.pathname === '/profile' ? 'active-link' : ''}
+                            >
+                                Profile
+                            </Link>
+                        </li>
+                    )}
+                    {loggedInUser?.isAdmin === "true" && (
+                        <li>
+                            <Link
+                                to="/admin"
+                                className={location.pathname === '/admin' ? 'active-link' : ''}
+                            >
+                                Admin
+                            </Link>
+                        </li>
+                    )}
+                    {/* Add more links as needed */}
+                </ul>
+            </nav>
         </div>
     );
 };

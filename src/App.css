@@ -53,6 +53,22 @@
   background-color: #5a6268;
 }
 
+/* Add the following rule for button colors */
+button {
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+/* Add the following rule for button hover colors */
+button:hover {
+  background-color: #2980b9;
+}
+
 .user-info {
   display: flex;
   gap: 1rem;
@@ -163,25 +179,44 @@
   padding: 1rem;
 }
 
-.sidebar nav ul {
-  list-style-type: none;
-  padding: 0;
+/* Update the .sidebar rule */
+.sidebar {
+  background-color: #2c3e50;
+  border-right: 1px solid #dee2e6;
+  padding: 1rem;
+  color: #fff;
+}
+
+/* Update the .main-content rule */
+.main-content {
+  margin-left: 220px;
+  padding: 1rem;
+  flex-grow: 1;
+  background-color: #ecf0f1;
 }
 
 .sidebar nav ul li {
-  margin-bottom: 1rem;
+  list-style: none;
+  margin: 10px;
 }
 
+/* Update the .sidebar nav ul li a rule */
 .sidebar nav ul li a {
-  color: #212529;
+  color: #fff;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
 }
 
+/* Update the .sidebar nav ul li a:hover and .sidebar nav ul li a.active-link rules */
 .sidebar nav ul li a:hover,
 .sidebar nav ul li a.active-link {
-  color: #007bff;
+  color: #3498db;
+}
+
+.navButton {
+  padding-left: 5%;
+
 }
 
 .main-content {
@@ -189,3 +224,17 @@
   padding: 1rem;
   flex-grow: 1; /* Allow the main content to grow to fill the remaining space */
 }
+
+/* Update the .app rule */
+/* .app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+} */
+
+/* Update the .app-container rule */
+/* .app-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+} */
