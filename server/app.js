@@ -8,7 +8,6 @@ const { ObjectId } = require('mongodb');
 dotenv.config();
 
 const app = express();
-// const uri = process.env.MONGODB_CONNECTION_STRING;
 const uri = "mongodb+srv://Anilbc99:Anilbc99@cluster-abc.kynooiw.mongodb.net/?retryWrites=true&w=majority";
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -78,13 +77,38 @@ client.connect(err => {
     });
 
     // Remove Item
-    app.delete('/api/items/:itemId', async (req, res) => {
+    app.delete('/api/items/:id', async (req, res) => {
+        const itemId = req.params.id;
         try {
-            const itemId = req.params.itemId;
+            // Get users who have reviewed the item
+            const users = await usersCollection.find({ "reviews.itemId": new ObjectId(itemId) }).toArray();
+
+            // Remove item reviews from users and update user's average rating
+            for (const user of users) {
+                // Remove item review from the user's reviews
+                const updatedReviews = user.reviews.filter(review => review.itemId.toString() !== itemId);
+
+                // Calculate the new average rating for the user
+                const totalRatings = updatedReviews.reduce((sum, review) => sum + review.rating, 0);
+                const newAverageRating = updatedReviews.length ? totalRatings / updatedReviews.length : 0;
+
+                // Update the user in the database
+                await usersCollection.updateOne(
+                    { _id: new ObjectId(user._id) },
+                    {
+                        $set: {
+                            reviews: updatedReviews,
+                            averageRating: newAverageRating,
+                        },
+                    }
+                );
+            }
+
+            // Remove the item from the database
             const result = await itemsCollection.deleteOne({ _id: new ObjectId(itemId) });
-            res.json({ message: 'Item deleted successfully' });
+            res.json({ message: 'Item removed successfully', deletedCount: result.deletedCount });
         } catch (err) {
-            res.status(500).json({ message: 'Error deleting item:', err });
+            res.status(500).json({ message: 'Error removing item:', err });
         }
     });
 
@@ -99,16 +123,40 @@ client.connect(err => {
         }
     });
 
-    // Remove User 
-    app.delete('/api/users/:userId', async (req, res) => {
+    // Remove User
+    app.delete('/api/users/:id', async (req, res) => {
+        const userId = req.params.id;
         try {
-            const userId = req.params.userId;
+            // Get the user
+            const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+
+            // Remove user's reviews from items and update ratings
+            for (const review of user.reviews) {
+                const item = await itemsCollection.findOne({ _id: new ObjectId(review.itemId) });
+                const newTotalRatings = item.rating * item.ratingCount - review.rating;
+                const newRatingCount = item.ratingCount - 1;
+                const newAverageRating = newRatingCount ? newTotalRatings / newRatingCount : 0;
+
+                await itemsCollection.updateOne(
+                    { _id: new ObjectId(review.itemId) },
+                    {
+                        $pull: { reviews: { userName: user.userName } },
+                        $set: {
+                            ratingCount: newRatingCount,
+                            rating: newAverageRating,
+                        },
+                    }
+                );
+            }
+            // Remove the user from the database
             const result = await usersCollection.deleteOne({ _id: new ObjectId(userId) });
-            res.json({ message: 'User deleted successfully' });
+
+            res.json({ message: 'User removed successfully', deletedCount: result.deletedCount });
         } catch (err) {
-            res.status(500).json({ message: 'Error deleting user:', err });
+            res.status(500).json({ message: 'Error removing user:', err });
         }
     });
+
 
     // Rate Item 
     app.post('/api/items/:itemId/rate', async (req, res) => {
@@ -122,21 +170,6 @@ client.connect(err => {
             res.json({ message: 'Item rated successfully' });
         } catch (err) {
             res.status(500).json({ message: 'Error rating item:', err });
-        }
-    });
-
-    // Review Item 
-    app.post('/api/items/:itemId/review', async (req, res) => {
-        try {
-            const itemId = req.params.itemId;
-            const { userId, review } = req.body;
-            const result = await itemsCollection.updateOne(
-                { _id: new ObjectId(itemId) },
-                { $push: { reviews: { userId, review } } }
-            );
-            res.json({ message: 'Item reviewed successfully' });
-        } catch (err) {
-            res.status(500).json({ message: 'Error reviewing item:', err });
         }
     });
 
@@ -175,7 +208,6 @@ client.connect(err => {
     // Get a single item by ID
     app.get('/api/items/:id', async (req, res) => {
         const itemId = req.params.id;
-        console.log('Fetching item with ID:', itemId);
         try {
             const item = await itemsCollection.findOne({ _id: new ObjectId(itemId) });
             if (!item) {
@@ -188,8 +220,74 @@ client.connect(err => {
         }
     });
 
+    // Submit a review
+    app.post('/api/items/:id/review', async (req, res) => {
+        try {
+            const itemId = req.params.id;
+            const { userId, reviewText, rating } = req.body;
 
-    // ... The rest of your endpoints go here, replacing the in-memory data operations with MongoDB queries
+            // Find the item and user in the database
+            const item = await itemsCollection.findOne({ _id: ObjectId(itemId) });
+            const user = await usersCollection.findOne({ _id: ObjectId(userId) });
+
+            // Calculate the new average rating
+            const newTotalRatings = item.rating + parseInt(rating);
+            const newRatingCount = item.ratingCount + 1;
+            const newAverageRating = newTotalRatings / newRatingCount;
+
+            // Update the item's reviews and ratings in the database
+            await itemsCollection.updateOne(
+                { _id: ObjectId(itemId) },
+                {
+                    $push: {
+                        reviews: {
+                            userName: user.userName,
+                            text: reviewText,
+                            rating: parseInt(rating),
+                        },
+                    },
+                    $set: {
+                        ratingCount: newRatingCount,
+                        rating: newAverageRating,
+                    },
+                }
+            );
+
+            // Update the user's reviews in the database
+            await usersCollection.updateOne(
+                { _id: ObjectId(userId) },
+                {
+                    $push: {
+                        reviews: {
+                            itemId: ObjectId(itemId),
+                            itemName: item.name,
+                            reviewText: reviewText,
+                            rating: parseInt(rating),
+                        },
+                    },
+                }
+            );
+
+            res.json({ message: 'Review submitted successfully' });
+        } catch (err) {
+            res.status(500).json({ message: 'Error submitting review:', err });
+        }
+    });
+
+    // Get a user's reviews
+    app.get('/api/users/:userId/reviews', async (req, res) => {
+        const userId = req.params.userId;
+        try {
+            const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+            if (!user) {
+                res.status(404).json({ message: 'User not found' });
+            } else {
+                res.json(user.reviews);
+            }
+        } catch (err) {
+            res.status(500).json({ message: 'Error fetching user reviews:', err });
+        }
+    });
 
     // Server setup
     const PORT = 3001;
@@ -197,4 +295,5 @@ client.connect(err => {
         console.log(`Server running on port ${PORT}`);
     });
 });
+
 

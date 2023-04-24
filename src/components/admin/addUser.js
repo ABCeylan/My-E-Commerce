@@ -11,7 +11,7 @@ const AddUser = ({ loggedInUser }) => {
         e.preventDefault();
         const newUser = {
             userName: name,
-            averageRating: -1,
+            averageRating: 0,
             reviews: [],
             password: password,
             isAdmin: isAdmin,

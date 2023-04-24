@@ -25,8 +25,10 @@ const AddItem = ({ loggedInUser }) => {
                 category: itemCategory,
                 size: itemSize,
                 color: itemColor,
-                rating: -1,
+                rating: 0,
                 review: [],
+                ratingCount: 0,
+                image: itemImage,
             }
         }
         else if (itemCategory === "Computer Components") {
@@ -36,8 +38,10 @@ const AddItem = ({ loggedInUser }) => {
                 price: itemPrice,
                 category: itemCategory,
                 spec: itemSpec,
-                rating: -1,
+                rating: 0,
                 review: [],
+                ratingCount: 0,
+                image: itemImage,
             }
         }
         else if (itemCategory === "Monitors") {
@@ -48,8 +52,10 @@ const AddItem = ({ loggedInUser }) => {
                 category: itemCategory,
                 size: itemSize,
                 spec: itemSpec,
-                rating: -1,
+                rating: 0,
                 review: [],
+                ratingCount: 0,
+                image: itemImage,
             }
         }
         else if (itemCategory === "Snacks") {
@@ -58,8 +64,10 @@ const AddItem = ({ loggedInUser }) => {
                 description: itemDescription,
                 price: itemPrice,
                 category: itemCategory,
-                rating: -1,
+                rating: 0,
                 review: [],
+                ratingCount: 0,
+                image: itemImage,
             }
         }
         try {

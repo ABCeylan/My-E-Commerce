@@ -49,6 +49,7 @@ export const loginUser = async (username, password) => {
         });
         if (response.ok) {
             const user = await response.json();
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
             return user;
         } else {
             throw new Error('Invalid credentials');
@@ -61,8 +62,8 @@ export const loginUser = async (username, password) => {
 
 export const addItem = async (itemData) => {
     try {
+        console.log("itemData: ", itemData)
         const response = await axios.post(`${API_BASE_URL}/items`, itemData);
-        console.log("addItem: ", response.data);
         return response.data;
     } catch (error) {
         console.error('Error adding item:', error);
@@ -104,3 +105,20 @@ export const removeUser = async (id) => {
         throw error;
     }
 };
+
+// Submit a review and fetch the updated item data
+export async function submitReviewAndUpdateItem(itemId, loggedInUser, reviewText, rating) {
+    const userId = loggedInUser._id;
+    await axios.post(`${API_BASE_URL}/items/${itemId}/review`, { userId, reviewText, rating });
+    const updatedItemData = await fetchItem(itemId);
+    return updatedItemData;
+}
+
+export const fetchUserReviews = async (userId) => {
+    const response = await fetch(`${API_BASE_URL}/users/${userId}/reviews`);
+    if (!response.ok) {
+        throw new Error(`Error fetching user reviews: ${response.statusText}`);
+    }
+    return await response.json();
+};
+

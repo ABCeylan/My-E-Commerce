@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchItems, fetchItemsByCategory } from '../../api';
 import { Link } from 'react-router-dom';
-import sundress from "../../assets/sundress.jpeg";
 
 const HomePage = ({ loggedInUser }) => {
     const [currentCategory, setCurrentCategory] = useState('All');
@@ -57,7 +56,7 @@ const HomePage = ({ loggedInUser }) => {
                         style={{ textDecoration: 'none' }}
                     >
                         <div className="item-container" onClick={() => handleItemClick(item)}>
-                            <img src={sundress} alt={item.name} />
+                            <img src={item.image} alt={item.name} />
                             <h3>{item.name}</h3>
                             <p>${item.price}</p>
                         </div>

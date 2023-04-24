@@ -15,6 +15,7 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState('');
 
   const handleLogin = (user) => {
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
     setLoggedInUser(user);
     navigate('/profile');
   };
@@ -33,17 +34,28 @@ function App() {
   };
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('loggedInUser');
+    console.log('storedUser', storedUser)
+
+    if (storedUser) {
+      console.log('storedUser', storedUser)
+      setLoggedInUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  useEffect(() => {
     filterItemsByCategory(currentCategory);
   }, [currentCategory]);
 
   const handleAfterLogout = () => {
-    setLoggedInUser(null);
+    localStorage.removeItem('loggedInUser');
+    setLoggedInUser('');
   };
 
   return (
     <div className="app">
-      <Navbar loggedInUser={loggedInUser} />
-      <h1>My Shop</h1>
+      {/* <Navbar loggedInUser={loggedInUser} /> */}
+      <h1 className='website-header'>My Shop</h1>
       <div className="app-container">
         <div className="sidebar">
           <Navbar loggedInUser={loggedInUser} />
