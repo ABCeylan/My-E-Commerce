@@ -35,10 +35,7 @@ function App() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
-    console.log('storedUser', storedUser)
-
     if (storedUser) {
-      console.log('storedUser', storedUser)
       setLoggedInUser(JSON.parse(storedUser));
     }
   }, []);
@@ -54,7 +51,6 @@ function App() {
 
   return (
     <div className="app">
-      {/* <Navbar loggedInUser={loggedInUser} /> */}
       <h1 className='website-header'>My Shop</h1>
       <div className="app-container">
         <div className="sidebar">

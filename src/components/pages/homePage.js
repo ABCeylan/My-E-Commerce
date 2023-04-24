@@ -32,7 +32,6 @@ const HomePage = ({ loggedInUser }) => {
 
     return (
         <div>
-            {/* Render category buttons */}
             <div className="category-container">
                 <div className="category-buttons">
                     {categories.map((category) => (
@@ -47,7 +46,6 @@ const HomePage = ({ loggedInUser }) => {
                 </div>
             </div>
 
-            {/* Render items */}
             <div className="item-buttons">
                 {filteredItems.map((item) => (
                     <Link

@@ -53,9 +53,8 @@
   background-color: #5a6268;
 }
 
-/* Add the following rule for button colors */
 button {
-  background-color: #3498db;
+  background-color: #5a6268;
   color: #ffffff;
   border: none;
   cursor: pointer;
@@ -64,9 +63,8 @@ button {
   transition: background-color 0.3s;
 }
 
-/* Add the following rule for button hover colors */
 button:hover {
-  background-color: #2980b9;
+  background-color: #5a6268;
 }
 
 .user-info {
@@ -165,7 +163,6 @@ button:hover {
   padding: 1rem;
 }
 
-/* Update the .sidebar rule */
 .sidebar {
   background-color: #2a0a31;
   border-right: 1px solid #dee2e6;
@@ -173,7 +170,6 @@ button:hover {
   color: #fff;
 }
 
-/* Update the .main-content rule */
 .main-content {
   margin-left: 220px;
   padding: 1rem;
@@ -186,7 +182,6 @@ button:hover {
   margin: 10px;
 }
 
-/* Update the .sidebar nav ul li a rule */
 .sidebar nav ul li a {
   color: #fff;
   text-decoration: none;
@@ -194,10 +189,9 @@ button:hover {
   transition: color 0.3s;
 }
 
-/* Update the .sidebar nav ul li a:hover and .sidebar nav ul li a.active-link rules */
 .sidebar nav ul li a:hover,
 .sidebar nav ul li a.active-link {
-  color: #3498db;
+  color: #f28e1c;
 }
 
 .navButton {
@@ -206,9 +200,9 @@ button:hover {
 }
 
 .main-content {
-  margin-left: 220px; /* Add some margin to the left to avoid hiding behind the navbar */
+  margin-left: 220px; 
   padding: 1rem;
-  flex-grow: 1; /* Allow the main content to grow to fill the remaining space */
+  flex-grow: 1;
 }
 
 .website-header{

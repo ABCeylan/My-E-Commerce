@@ -14,14 +14,9 @@ const ItemPage = ({ loggedInUser }) => {
     useEffect(() => {
         const fetchItemData = async () => {
             const itemData = await fetchItem(id);
-            console.log("itemData:", itemData);
             setItem(itemData);
-
-            console.log("itemData: after fetch", itemData);
             navigate(`/items/${itemData._id}`);
         };
-
-        console.log(loggedInUser);
         if (loggedInUser) {
             fetchItemData();
         }
@@ -32,15 +27,13 @@ const ItemPage = ({ loggedInUser }) => {
         try {
             const response = await submitReviewAndUpdateItem(item._id, loggedInUser, reviewText, rating);
             setItem(response);
-            console.log("response:", response);
+
             // Clear the input fields after submission
             setReviewText('');
             setRating(0);
             alert('Review submitted successfully');
             setReviewText('');
             setRating(1);
-            // Fetch updated item data and update the state (e.g., reviews and ratings)
-            // ...
         } catch (err) {
             console.error('Error submitting review:', err);
             alert('Failed to submit review');

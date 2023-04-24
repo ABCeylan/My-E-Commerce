@@ -1,36 +1,44 @@
 import React, { useState } from 'react';
-import { addUser } from '../../api';
+import { addUser, fetchUsers } from '../../api';
 
 const AddUser = ({ loggedInUser }) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [isAdmin, setIsAdmin] = useState('');
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if user already exists
+        const response = await fetchUsers();
+        const userExists = response.find((user) => user.userName === name);
+        if (userExists) {
+            alert('User already exists');
+            return;
+        }
+
         const newUser = {
             userName: name,
             averageRating: 0,
             reviews: [],
             password: password,
             isAdmin: isAdmin,
-        }
+        };
 
         try {
             if (loggedInUser.isAdmin === "true") {
                 await addUser(newUser);
-                alert('Item added successfully');
+                alert('User added successfully');
             }
             else {
                 alert('You please login as admin to add item');
             }
         } catch (err) {
             // Interesting but database is updating but still it catches the error
-            alert('Item added successfully');
+            // that's why I am not using console.error
+            // alert('Same user already exists');
         }
     };
-
     return (
         <div>
             <form onSubmit={handleSubmit}>

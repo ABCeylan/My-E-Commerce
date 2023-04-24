@@ -149,7 +149,6 @@ const AddItem = ({ loggedInUser }) => {
                         <input type="number" value={itemPrice} onChange={(e) => setItemPrice(e.target.value)} />
                     </>
                 );
-            // Add more cases for other categories
             default:
                 return null;
         }

@@ -42,7 +42,6 @@ const Navbar = ({ loggedInUser }) => {
                             </Link>
                         </li>
                     )}
-                    {/* Add more links as needed */}
                 </ul>
             </nav>
         </div>

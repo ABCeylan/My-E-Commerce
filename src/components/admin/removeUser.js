@@ -41,6 +41,17 @@ const RemoveUser = ({ loggedInUser }) => {
         }
     };
 
+    const userRatingCalculation = (user) => {
+        let rating = 0;
+        if (user.reviews.length > 0) {
+            for (let i = 0; i < user.reviews.length; i++) {
+                rating += user.reviews[i].rating;
+            }
+            rating = rating / user.reviews.length;
+        }
+        return rating.toFixed(2);
+    }
+
     return (
         <div>
             {loading ? (
@@ -52,7 +63,7 @@ const RemoveUser = ({ loggedInUser }) => {
                         <option value="">--Choose a user--</option>
                         {users.map((user) => (
                             <option key={user._id} value={user._id}>
-                                {user.userName} - {user.averageRating}
+                                {user.userName} - {userRatingCalculation(user)}
                             </option>
                         ))}
                     </select>

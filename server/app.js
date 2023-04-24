@@ -103,7 +103,6 @@ client.connect(err => {
                     }
                 );
             }
-
             // Remove the item from the database
             const result = await itemsCollection.deleteOne({ _id: new ObjectId(itemId) });
             res.json({ message: 'Item removed successfully', deletedCount: result.deletedCount });
@@ -163,6 +162,7 @@ client.connect(err => {
         try {
             const itemId = req.params.itemId;
             const { userId, rating } = req.body;
+
             const result = await itemsCollection.updateOne(
                 { _id: new ObjectId(itemId) },
                 { $push: { ratings: { userId, rating } } }
@@ -177,10 +177,8 @@ client.connect(err => {
     app.get('/api/items/category/:category', async (req, res) => {
         try {
             const category = req.params.category;
-
             const filterDefinition = { category };
             const items = await itemsCollection.find(filterDefinition).toArray();
-
             res.json(items);
         } catch (err) {
             res.status(500).json({ message: 'Error fetching items by category:', err });
@@ -190,7 +188,6 @@ client.connect(err => {
     // User Login
     app.post('/api/login', async (req, res) => {
         const { username, password } = req.body;
-
         try {
             const filterDefinition = { userName: username, password };
             const user = await usersCollection.findOne(filterDefinition);

@@ -1,4 +1,3 @@
-// src/components/ProfilePage.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchUserReviews } from '../../api';
@@ -15,14 +14,14 @@ const ProfilePage = ({ loggedInUser, onAfterLogout }) => {
                 try {
                     const reviews = await fetchUserReviews(loggedInUser._id);
                     setUserReviews(reviews);
-
+                    let averageRating = 0;
                     let totalReviews = reviews.length;
                     let totalRating = 0;
                     for (let i = 0; i < totalReviews; i++) {
                         totalRating += reviews[i].rating;
                     }
-                    let averageRating = totalRating / totalReviews;
-                    setUserRating(averageRating);
+                    averageRating = totalRating / totalReviews;
+                    setUserRating(averageRating.toFixed(2));
                 } catch (err) {
                     console.error("Error fetching user reviews:", err);
                 }
