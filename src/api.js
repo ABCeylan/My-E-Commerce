@@ -5,7 +5,6 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 // Fetch all items
 export async function fetchItems() {
     const response = await axios.get(`${API_BASE_URL}/items`);
-    console.log(response.data);
     return response.data;
 }
 
@@ -13,7 +12,6 @@ export async function fetchItems() {
 export async function fetchItem(id) {
     try {
         const response = await axios.get(`${API_BASE_URL}/items/${id}`);
-        console.log(response.data);
         if (response.status !== 200) {
             throw new Error(`Error fetching item with ID: ${id}`);
         }
@@ -59,7 +57,6 @@ export const loginUser = async (username, password) => {
 
 export const addItem = async (itemData) => {
     try {
-        console.log("itemData: ", itemData)
         const response = await axios.post(`${API_BASE_URL}/items`, itemData);
         return response.data;
     } catch (error) {

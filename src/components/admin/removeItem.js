@@ -10,7 +10,6 @@ const RemoveItem = ({ loggedInUser }) => {
         const fetchAllItems = async () => {
             try {
                 const itemsData = await fetchItems();
-                console.log("itemsResponse:", itemsData);
                 setItems(itemsData);
             } catch (error) {
                 console.error('Error fetching items:', error);

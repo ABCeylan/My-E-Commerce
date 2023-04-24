@@ -52,7 +52,6 @@ client.connect(err => {
     app.get('/api/users', async (req, res) => {
         try {
             const users = await usersCollection.find().toArray();
-            // console.log('Users:', users);
             res.json(users);
         } catch (err) {
             res.status(500).json({ message: 'Error fetching users:', err });

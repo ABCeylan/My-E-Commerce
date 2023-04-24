@@ -10,7 +10,6 @@ const RemoveUser = ({ loggedInUser }) => {
         const fetchAllUsers = async () => {
             try {
                 const usersData = await fetchUsers();
-                console.log("usersResponse:", usersData);
                 setUsers(usersData);
             } catch (error) {
                 console.error('Error fetching users:', error);
