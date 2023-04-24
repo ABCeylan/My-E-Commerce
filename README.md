@@ -1,6 +1,11 @@
 # My E-commerce Web Application
 This e-commerce web application allows regular users to browse, review, and rate items, while providing an admin user with additional management features, such as adding and removing items/users. Here you can see [here](https://e-commerce-495-son.onrender.com/) 
 
+## Deploying in local step by step
+1. Unzip the folder.
+2. npm install in the root.
+3. npm run dev, starts both back and frontend.
+
 ## User Guide
 Regular users can:
 Browse items on the home page
