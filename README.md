@@ -1,5 +1,22 @@
 # My E-commerce Web Application
-This e-commerce web application allows regular users to browse, review, and rate items, while providing an admin user with additional management features, such as adding and removing items/users. Here you can see [here](https://e-commerce-495-son.onrender.com/) 
+This e-commerce web application allows regular users to browse, review, and rate items, while providing an admin user with additional management features, such as adding and removing items/users. Here you can see [here.](https://e-commerce-495-son.onrender.com/) 
+
+## To login as admin you can use
+username: anıl
+password: 123 
+
+username: cemre
+password: 123 
+
+## To login as regular user you can use
+username: ünlü futbolcu hakan ünal
+password: 123 
+
+username: jet sosyete ajda hanım
+password: 123 
+
+username: iş insanı ali bey
+password: 123 
 
 ## Deploying in local step by step
 1. Unzip the folder.
@@ -27,5 +44,4 @@ A popular, efficient library with a component-based architecture, providing a sm
 
 Back-end: Express
 A lightweight, flexible framework for Node.js with a large community and well-documented resources, allowing for scalable and maintainable web applications.
-
 
