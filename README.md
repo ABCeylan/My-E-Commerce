@@ -15,10 +15,10 @@ Manage user accounts, including adding and removing users
 
 ### Technical Details
 Language: JavaScript
-Chosen for its versatility, wide use, and compatibility with both front-end and back-end development, which aligns with my academic and professional experience.
+Chosen for its versatility, wide use, and compatibility with both front-end and back-end development, which aligns with my professional experience.
 
 Front-end: React
-A popular, efficient library with a component-based architecture, providing a smooth user experience and easy code management.
+A popular, efficient library with a component-based architecture, providing a smooth user experience and easy code management. Also I am using in my professional life.
 
 Back-end: Express
 A lightweight, flexible framework for Node.js with a large community and well-documented resources, allowing for scalable and maintainable web applications.
